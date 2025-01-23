@@ -39,3 +39,5 @@ FROM vendor
 INNER JOIN vendor_booth_assignments
 ON vendor.vendor_id = vendor_booth_assignments.vendor_id
 ORDER BY vendor_name ASC , market_date ASC
+
+--END
