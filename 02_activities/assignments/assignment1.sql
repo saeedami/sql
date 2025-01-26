@@ -12,6 +12,8 @@ SELECT * FROM customer_purchases WHERE product_id = 4 OR product_id = 5;
 --Question 2
 SELECT *, quantity*cost_to_customer_per_qty AS price FROM customer_purchases WHERE vendor_id >= 8 AND vendor_id <= 10;
 
+SELECT *, quantity*cost_to_customer_per_qty AS price FROM customer_purchases WHERE vendor_id BETWEEN 8  AND 10 ;
+
 -- CASE
 --Question 1
 SELECT product_id, product_name,
@@ -59,4 +61,4 @@ SELECT * FROM temp_new_vendor;
 SELECT customer_id, strftime('%m',market_date) AS month,strftime('%Y',market_date) AS year FROM customer_purchases;
 
 --Question 2
-SELECT customer_id, strftime('%m',market_date) AS month,strftime('%Y',market_date) AS year FROM customer_purchases WHERE month='04' AND year='2022';
+SELECT sum(quantity*cost_to_customer_per_qty) AS spending ,customer_id, strftime('%m',market_date) AS month,strftime('%Y',market_date) AS year FROM customer_purchases WHERE month='04' AND year='2022' GROUP BY customer_id;
