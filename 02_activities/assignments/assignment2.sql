@@ -1,3 +1,4 @@
+--section 2
 --COALESCE
 ---Q1
 SELECT 
@@ -42,5 +43,47 @@ select max(sales) as 'min/max', market_date from date_sales
 UNION
 select min(sales)as 'min/max', market_date from date_sales;
 
-	
-
+--section3
+--Cross Join
+---Q1
+WITH customers_total AS (
+    SELECT COUNT(*) AS customer_count FROM customer
+),
+vendor_product_prices AS (
+    SELECT 
+        product_id,
+		vendor_name, 
+        original_price AS price
+    FROM vendor_inventory 
+    JOIN vendor ON vendor_inventory.vendor_id = vendor.vendor_id
+),
+result AS (
+	SELECT 
+		DISTINCT vendor_product_prices.vendor_name, vendor_product_prices.price * 5 * customers_total.customer_count AS total_revenue
+	FROM vendor_product_prices 
+	CROSS JOIN customers_total 
+	ORDER BY vendor_product_prices.vendor_name, vendor_product_prices.product_id
+	)
+SELECT vendor_name,sum(total_revenue) from result GROUP by vendor_name;
+--INSERT
+---Q1
+CREATE TABLE IF NOT EXISTS product_units AS
+SELECT *, snapshot_timestamp
+FROM product
+WHERE product_qty_type = 'unit';
+---Q2
+INSERT INTO product_units (product_id, product_name, product_size, product_category_id, product_qty_type, snapshot_timestamp)
+VALUES (7, 'Apple Pie', '10"', '3','unit', '2012-05-06 12:48:00');
+--DELETE
+---Q1
+DELETE FROM product_units
+WHERE product_name = 'Apple Pie'
+AND snapshot_timestamp < (
+    SELECT MAX(snapshot_timestamp)
+    FROM product_units
+    WHERE product_name = 'Apple Pie'
+);
+--UPDATE
+---Q1
+ALTER TABLE product_units
+ADD COLUMN current_quantity INT;
