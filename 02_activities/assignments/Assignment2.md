@@ -54,7 +54,7 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
 ```
-Your answer...
+Type 1 does not keep a history of addresses, and Type 2 keeps a hitory of customer addresses.
 ```
 
 ***
